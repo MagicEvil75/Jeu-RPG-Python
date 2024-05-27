@@ -1,0 +1,1128 @@
+import random
+
+global argent
+argent = 0
+global Vie
+Vie = 20
+global Première_Quête
+Première_Quête = False
+global Deuxième_Quête
+Deuxième_Quête = False
+global Troisième_Quête
+Troisième_Quête = False
+Quatrième_Quête_partie1 = False
+global Quatrième_Quête
+Quatrième_Quête = False
+global Cinquième_Quête
+Cinquième_Quête = False
+
+# Début du jeu : 1ère Etape, choisir le personnage
+def choisir_personnage():
+    print("\n----Jeux de rôle interactif----\n")
+    print("Quel personnage voulez-vous choisir ?")
+    print("1. Magicien : Maîtrise la magie, possède des sorts spéciaux. Force : 6; Intelligence : 18; Adresse : 10; Magie : 20; Vie : 12")
+    print("2. Guerrier : Maîtrise la force, possède des armes. Force : 20; Intelligence : 6; Adresse : 10; Magie : 4; Vie : 14")
+    print("3. Archer : Maîtrise les armes longues portées, possède des armes. Force : 10; Intelligence : 14; Adresse : 20; Magie : 6; Vie : 18")
+    print("4. Voleur : Maîtrise la discrétion, possède des armes. Force : 14; Intelligence : 10; Adresse : 20; Magie : 6; Vie : 18")
+    print("5. Assassin : Maîtrise la discrétion et l'art de tuer, possède des armes. Force : 20; Intelligence : 6; Adresse : 10; Magie : 6; Vie : 20")
+    choix = input("Entrez le numéro du personnage que vous voulez choisir (entre 1 et 5) : ")
+    dragon = False
+
+    if choix == '1':
+        global personnage
+        personnage = "Magicien"
+        caractéristiques = "Maîtrise la magie, possède des sorts spéciaux"
+        global Force
+        Force = 6
+        global Défense
+        Défense = 12
+        global Intelligence
+        Intelligence = 18
+        global Adresse
+        Adresse = 10
+        global Magie
+        Magie = 20
+    elif choix == '2':
+        personnage = "Guerrier"
+        caractéristiques = "Maîtrise la force, possède des armes"
+        Force = 20
+        Défense = 16
+        Intelligence = 6
+        Adresse = 10
+        Magie = 4
+    elif choix == '3':
+        personnage = "Archer"
+        caractéristiques = "Maîtrise les armes longues portées, possède des armes"
+        Force = 10
+        Défense = 14
+        Intelligence = 14
+        Adresse = 20
+        Magie = 6
+    elif choix == '4':
+        personnage = "Voleur"
+        caractéristiques = "Maîtrise la discrétion, possède des armes"
+        Force = 14
+        Défense = 20
+        Intelligence = 10
+        Adresse = 20
+        Magie = 6
+    elif choix == '5':
+        personnage = "Assassin"
+        caractéristiques = "Maîtrise la discrétion et l'art de tuer, possède des armes"
+        Force = 20
+        Défense = 12
+        Intelligence = 6
+        Adresse = 10
+        Magie = 6
+    elif choix.lower() == 'dragon':
+        personnage = "Dragon"
+        caractéristiques = "Maîtrise la magie, possède des sorts spéciaux"
+        Force = 20
+        Défense = 20
+        Intelligence = 20
+        Adresse = 20
+        Magie = 20
+        dragon = True
+    else:
+        print("Choix invalide. Veuillez sélectionner un numéro entre 1 et 5.")
+        return choisir_personnage()
+
+    print(f"\nBravo, vous avez choisi le personnage : {personnage}.")
+    print(
+        f"Caractéristiques : {caractéristiques}, Force : {Force}, Intelligence : {Intelligence}, Adresse : {Adresse}, Magie : {Magie}, Vie : {Vie}."
+    )
+    return personnage, Force, Intelligence, Adresse, Magie, Vie, dragon
+
+#Fonction du magasin
+def magasin():
+    global argent
+    global Force
+    global Défense
+    global Intelligence
+    global Adresse
+    global Magie
+    global Vie
+    print("\nBienvenue dans le magasin !\n")
+    print("Vous pouvez acheter des objets pour augmenter vos statistiques.")
+    print("1. Armes et armures.")
+    print("2. Objets et potions")
+    print("3. Quitter le magasin")
+    choix = input("Entrez le numéro de votre choix (1, 2 ou 3) : ")
+    if choix == '1':
+        print(f"Vous avez actuellement {argent} pièces d'or.")
+        print("Voici les armes et armures disponibles :")
+        print("1. Epee de guerre : +5 de force (50 pièce d'or).")
+        print("2. Bouclier : +2 de défense (20 pièces d'or).")
+        print("3. Arc : +2 d'adresse (30 pièces d'or).")
+        print("4. Couteau : +1 de force (10 pièces d'or).")
+        print("5. Armure de métal : +7 de défense (65 pièces d'or).")
+        print("6. Revenir à l'accueil du magasin")
+        choix_arme = input(
+            "Entrez le numéro de l'arme que vous souhaitez recevoir (entre 1 et 5) ou 6 si vous voulez revenir à l'accueil du magasin : "
+        )
+        if choix_arme == '1':
+            if argent >= 50:
+                print("Vous avez acheté l'épée de guerre.")
+                Force += 5
+                argent -= 50
+                magasin()
+            else:
+                print(
+                    "Vous n'avez pas assez d'argent pour acheter cette arme.")
+                magasin()
+        elif choix_arme == '2':
+            if argent >= 20:
+                print("Vous avez acheté le bouclier.")
+                Défense += 2
+                argent -= 20
+                magasin()
+            else:
+                print(
+                    "Vous n'avez pas assez d'argent pour acheter ce bouclier.")
+                magasin()
+        elif choix_arme == '3':
+            if argent >= 30:
+                print("Vous avez acheté l'arc.")
+                Adresse += 2
+                argent -= 30
+                magasin()
+            else:
+                print("Vous n'avez pas assez d'argent pour acheter cet arc.")
+                magasin()
+        elif choix_arme == '4':
+            if argent >= 10:
+                print("Vous avez acheté le couteau.")
+                magasin()
+                Force += 1
+                argent -= 10
+            else:
+                print(
+                    "Vous n'avez pas assez d'argent pour acheter ce couteau.")
+                magasin()
+        elif choix_arme == '5':
+            if argent >= 65:
+                print("Vous avez acheté l'armure de métal.")
+                Défense += 7
+                argent -= 65
+                magasin()
+            else:
+                print(
+                    "Vous n'avez pas assez d'argent pour acheter cette armure."
+                )
+                magasin()
+        elif choix_arme == '6':
+            magasin()
+        else:
+            print(
+                "Choix invalide. Veuillez sélectionner un numéro entre 1 et 6."
+            )
+            magasin()
+    elif choix == '2':
+        print(f"Vous avez actuellement {argent} pièces d'or.")
+        print("Voici les objets disponibles :")
+        print("1. Potion de force (10 points de force) - 10 pièces d'or")
+        print("2. Potion de magie (10 points de magie) - 10 pièces d'or")
+        print("3. Potion de vie (10 points de vie) - 10 pièces d'or")
+        print("4. Revenir à l'accueil du magasin")
+        choix_objet = input(
+            "Entrez le numéro de l'objet que vous souhaitez acheter (entre 1 et 3) ou 4 si vous voulez revenir à l'accueil du magasin : "
+        )
+        if choix_objet == '1':
+            if argent >= 10:
+                print("Vous avez acheté une potion de force.")
+                Force += 10
+                argent -= 10
+                magasin()
+            else:
+                print(
+                    "Vous n'avez pas assez d'argent pour acheter cette potion."
+                )
+                magasin()
+        elif choix_objet == '2':
+            if argent >= 10:
+                print("Vous avez acheté une potion de magie.")
+                Magie += 10
+                argent -= 10
+                magasin()
+            else:
+                print(
+                    "Vous n'avez pas assez d'argent pour acheter cette potion."
+                )
+                magasin()
+        elif choix_objet == '3':
+            if argent >= 10:
+                print("Vous avez acheté une potion de vie.")
+                Vie += 10
+                argent -= 10
+                magasin()
+            else:
+                print(
+                    "Vous n'avez pas assez d'argent pour acheter cette potion."
+                )
+                magasin()
+        elif choix_objet == '4':
+            magasin()
+        else:
+            print(
+                "Choix invalide. Veuillez sélectionner un numéro entre 1 et 4."
+            )
+            magasin()
+    elif choix == '3':
+        print("Merci d'avoir visité le magasin !")
+        menu_principal()
+
+
+# Menu principal
+def menu_principal():
+    print("\n--- Menu Principal ---")
+    print("Vous êtes à la croisée des chemins, que voulez-vous faire ?")
+    print("1. Aller à Ravenwood.")
+    print("2. Aller à Tryndamere.")
+    print("3. Aller à Mordor.")
+    print("4. Aller au magasin.")
+    print("5. Quitter le jeu.")
+    choix = input("Entrez le numéro de votre choix (Entre 1 et 5) : ")
+    if choix == '1':
+        print("\nVous allez à Ravenwood.")
+        ravenwood()
+    elif choix == '2':
+        print("\nVous allez à Tryndamere.")
+        tryndamere()
+    elif choix == '3':
+        print("\nVous allez à Mordor.")
+        mordor()
+    elif choix == '4':
+        print("Vous allez au magasin.")
+        magasin()
+    elif choix == '5':
+        print("Merci d'avoir joué !")
+        exit()
+
+
+#Fonction de la première quête
+def premiere_quete():
+    global Première_Quête
+    Première_Quête = False
+    global Vie
+    global Force
+    global Défense
+    global Intelligence
+    global Adresse
+    global Magie
+    global argent
+    print(
+        "Maire : 'Aventurier, notre village est attaqué par des gobelins ! Pouvez-vous nous aider à les chasser ?'"
+    )
+    print("\nQue voulez-vous répondre ?")
+    print("1. Oui, je vais vous aider.")
+    print("2. Non, je ne suis pas intéressé par cette mission.")
+    choix = input("Entrez le numéro de votre choix (1 ou 2) : ")
+
+    if choix == '1':
+        print("\nVous : 'Oui, je vais vous aider.'")
+        print(
+            "Maire : 'Merci beaucoup ! Les gobelins se cachent dans la grotte au nord du village. Bonne chance, aventurier.'"
+        )
+
+        print("\nVous vous dirigez vers la grotte au nord du village.")
+        print(
+            "À l'entrée de la grotte, vous voyez plusieurs gobelins. Vous devez maintenant décider comment les affronter."
+        )
+
+        # Choix de la stratégie
+        if dragon is False:
+            print("\nQuelle stratégie voulez-vous utiliser ?")
+            print("1. Attaquer de front avec toute votre force.")
+            print(
+                "2. Utiliser la magie pour les affaiblir avant de les attaquer."
+            )
+            print("3. Utiliser la discrétion pour les surprendre.")
+            choix_strategie = input(
+                "Entrez le numéro de votre choix (1, 2 ou 3) : ")
+        else:
+            print("\nQuelle stratégie voulez-vous utiliser ?")
+            print("1. Attaquer de front avec toute votre force.")
+            print(
+                "2. Utiliser la magie pour les affaiblir avant de les attaquer."
+            )
+            print("3. Utiliser la discrétion pour les surprendre.")
+            print("4. Leur cracher des flammes pour les brûler.")
+            print("5. Les attaquer avec vos crocs.")
+            choix_strategie = input(
+                "Entrez le numéro de votre choix (1, 2, 3, 4 ou 5) : ")
+
+        if choix_strategie == '1':
+            if Force >= 14:
+                print(
+                    "\nVous décidez d'attaquer de front avec toute votre force."
+                )
+                print(
+                    "Grâce à votre puissance, vous parvenez à vaincre les gobelins."
+                )
+            else:
+                print(
+                    "\nVous décidez d'attaquer de front avec toute votre force."
+                )
+                print(
+                    "Cependant, les gobelins sont trop nombreux et vous êtes submergé. Vous devez battre en retraite et repenser votre stratégie."
+                )
+                Dégât = 5
+                Vie -= Dégât
+                print("Vous avez perdu {Dégât} points de vie.")
+                ravenwood()
+        elif choix_strategie == '2':
+            if Magie >= 10:
+                print(
+                    "\nVous utilisez votre magie pour affaiblir les gobelins avant de les attaquer."
+                )
+                print(
+                    "Votre plan fonctionne parfaitement et vous parvenez à vaincre les gobelins."
+                )
+            else:
+                print(
+                    "\nVous tentez d'utiliser votre magie pour affaiblir les gobelins."
+                )
+                print(
+                    "Malheureusement, votre magie n'est pas assez puissante et vous êtes submergé. Vous devez battre en retraite et repenser votre stratégie."
+                )
+                Dégât = 5
+                Vie -= Dégât
+                print("Vous avez perdu {Dégât} points de vie.")
+                ravenwood()
+        elif choix_strategie == '3':
+            if Adresse >= 14:
+                print(
+                    "\nVous décidez d'utiliser la discrétion pour surprendre les gobelins."
+                )
+                print(
+                    "Votre plan fonctionne parfaitement et vous parvenez à vaincre les gobelins."
+                )
+            else:
+                print(
+                    "\nVous tentez d'utiliser la discrétion pour surprendre les gobelins."
+                )
+                print(
+                    "Malheureusement, votre tentative échoue et vous êtes repéré. Vous devez battre en retraite et repenser votre stratégie."
+                )
+                Dégât = 5
+                Vie -= Dégât
+                print("Vous avez perdu {Dégât} points de vie.")
+                ravenwood()
+        elif choix_strategie == '4':
+            if dragon is True:
+                print("\nVous crachez des flammes sur les gobelins.")
+                print(
+                    "Votre plan fonctionne parfaitement et vous parvenez à vaincre les gobelins."
+                )
+            else:
+                print("Choix invalide. Veuillez choisir une stratégie valide.")
+                premiere_quete()
+        elif choix_strategie == '5':
+            if dragon is True:
+                print("\nVous attaquez les gobelins avec vos crocs.")
+                print(
+                    "Votre plan fonctionne parfaitement et vous parvenez à vaincre les gobelins."
+                )
+            else:
+                print("Choix invalide. Veuillez choisir une stratégie valide.")
+                premiere_quete()
+        else:
+            print(
+                "\nChoix invalide. Veuillez sélectionner une stratégie valide."
+            )
+            premiere_quete()
+
+        print(
+            "\nFélicitations ! Vous avez réussi la première quête et avez débarrassé la grotte des gobelins."
+        )
+        print(
+            "Le village de Rivenwood vous est reconnaissant pour votre aide.")
+        Première_Quête = True
+        gain = random.randint(50, 100)
+        print("Vous recevez une récompense de " + str(gain) + " pièces d'or.")
+        global argent
+        argent += gain
+        ravenwood()
+    else:
+        print("\nVous : 'Non, je ne suis pas intéressé par cette mission.'")
+        print("Maire : 'Je comprends, aventurier. Merci quand même.'")
+        ravenwood()
+
+    return "Première quête terminée.", Première_Quête
+
+
+#Fonction de la deuxième quête
+def deuxieme_quete():
+    global Deuxième_Quête
+    Deuxième_Quête = False
+    global Vie
+    global Force
+    global Défense
+    global Intelligence
+    global Adresse
+    global Magie
+    global argent
+    print("\n--- Deuxième Quête ---\n")
+    print(
+        "Maire : 'Merci beaucoup pour votre aide, aventurier. Cependant, nous avons encore besoin de votre aide.'"
+    )
+    print(
+        "Maire : 'Récemment, des objets précieux ont été volés dans notre village. Nous soupçonnons une bande de voleurs qui se cache dans la forêt.'"
+    )
+    print(
+        "Maire : 'Pouvez-vous retrouver les objets volés et arrêter ces voleurs ?'"
+    )
+
+    print("\nQue voulez-vous répondre ?")
+    print("1. Oui, je vais vous aider à retrouver les objets volés.")
+    print("2. Non, je ne suis pas intéressé par cette mission.")
+    choix = input("Entrez le numéro de votre choix (1 ou 2) : ")
+
+    if choix == '1':
+        print(
+            "\nVous : 'Oui, je vais vous aider à retrouver les objets volés.'")
+        print(
+            "Maire : 'Merci infiniment ! Les voleurs se cachent quelque part dans la forêt au nord du village. Bonne chance, aventurier.'"
+        )
+
+        print("\nVous vous dirigez vers la forêt au nord du village.")
+        print(
+            "Après quelques heures de recherche, vous repérez un groupe de personnes suspectes cachées dans un campement."
+        )
+        print("Vous devez maintenant décider comment les affronter.")
+
+        # Choix de la stratégie
+        while not Deuxième_Quête:
+            if not dragon:
+                print("\nQuelle stratégie voulez-vous utiliser ?")
+                print("1. Attaquer de front avec toute votre force.")
+                print(
+                    "2. Utiliser la magie pour les immobiliser avant de les attaquer."
+                )
+                print(
+                    "3. Utiliser la discrétion pour les surprendre et récupérer les objets volés."
+                )
+                choix_strategie = input(
+                    "Entrez le numéro de votre choix (1, 2 ou 3) : ")
+            else:
+                print("\nQuelle stratégie voulez-vous utiliser ?")
+                print("1. Attaquer de front avec toute votre force.")
+                print(
+                    "2. Utiliser la magie pour les immobiliser avant de les attaquer."
+                )
+                print(
+                    "3. Utiliser la discrétion pour les surprendre et récupérer les objets volés."
+                )
+                print("4. Les brûler en leur crachant des flammes mortelles.")
+                print("5. Utiliser ses crocs pour les neutraliser.")
+                choix_strategie = input(
+                    "Entrez le numéro de votre choix (1, 2, 3, 4 ou 5) : ")
+
+            if choix_strategie == '1':
+                if Force >= 14:
+                    print(
+                        "\nVous décidez d'attaquer de front avec toute votre force."
+                    )
+                    print(
+                        "Grâce à votre puissance, vous parvenez à vaincre les voleurs et à récupérer les objets volés."
+                    )
+                else:
+                    print(
+                        "\nVous décidez d'attaquer de front avec toute votre force."
+                    )
+                    print(
+                        "Cependant, les voleurs sont trop nombreux et vous êtes submergé. Vous devez battre en retraite et repenser votre stratégie."
+                    )
+                    Dégât = 5
+                    Vie -= Dégât
+                    print("Vous avez perdu {Dégât} points de vie.")
+                    ravenwood()
+            elif choix_strategie == '2':
+                if Magie >= 10:
+                    print(
+                        "\nVous utilisez votre magie pour immobiliser les voleurs avant de les attaquer."
+                    )
+                    print(
+                        "Votre plan fonctionne parfaitement et vous parvenez à vaincre les voleurs et à récupérer les objets volés."
+                    )
+                else:
+                    print(
+                        "\nVous tentez d'utiliser votre magie pour immobiliser les voleurs."
+                    )
+                    print(
+                        "Malheureusement, votre magie n'est pas assez puissante et vous êtes submergé. Vous devez battre en retraite et repenser votre stratégie."
+                    )
+                    Dégât = 5
+                    Vie -= Dégât
+                    print("Vous avez perdu {Dégât} points de vie.")
+                    ravenwood()
+            elif choix_strategie == '3':
+                if Adresse >= 14:
+                    print(
+                        "\nVous décidez d'utiliser la discrétion pour surprendre les voleurs et récupérer les objets volés."
+                    )
+                    print(
+                        "Votre plan fonctionne parfaitement et vous parvenez à récupérer les objets volés sans être repéré."
+                    )
+                else:
+                    print(
+                        "\nVous tentez d'utiliser la discrétion pour surprendre les voleurs."
+                    )
+                    print(
+                        "Malheureusement, votre tentative échoue et vous êtes repéré. Vous devez battre en retraite et repenser votre stratégie."
+                    )
+                    Dégât = 5
+                    Vie -= Dégât
+                    print("Vous avez perdu {Dégât} points de vie.")
+                    ravenwood()
+            elif choix_strategie == '4':
+                if dragon:
+                    print(
+                        "\nVous décidez de brûler les voleurs en leur crachant des flammes mortelles."
+                    )
+                    print(
+                        "Votre tactique est très efficace et vous parvenez à vaincre les voleurs et à récupérer les objets volés."
+                    )
+                else:
+                    print(
+                        "\nChoix invalide. Vous devez choisir une stratégie valide."
+                    )
+                    deuxieme_quete()
+            elif choix_strategie == '5':
+                if dragon:
+                    print(
+                        "\nVous décidez d'utiliser vos crocs pour neutraliser les voleurs."
+                    )
+                    print(
+                        "Votre force et votre férocité vous permettent de vaincre facilement les voleurs et de récupérer les objets volés."
+                    )
+                else:
+                    print(
+                        "\nChoix invalide. Vous devez choisir une stratégie valide."
+                    )
+                    deuxieme_quete()
+            else:
+                print(
+                    "\nChoix invalide. Veuillez sélectionner une stratégie valide."
+                )
+                deuxieme_quete()
+
+        print(
+            "\nFélicitations ! Vous avez réussi la deuxième quête et avez récupéré les objets volés."
+        )
+        print(
+            "Le village de Rivenwood vous est reconnaissant pour votre aide.")
+        Deuxième_Quête = True
+        gain = random.randint(50, 100)
+        print("Vous recevez une récompense de " + str(gain) + "pièces d'or.")
+        global argent
+        argent += gain
+        ravenwood()
+    else:
+        print("\nVous : 'Non, je ne suis pas intéressé par cette mission.'")
+        print("Maire : 'Je comprends, aventurier. Merci quand même.'")
+        ravenwood()
+
+    return "Deuxième quête terminée.", Deuxième_Quête
+
+
+# Fonction pour la troisième quête
+def troisieme_quete():
+    global Troisième_Quête
+    Troisième_Quête = False
+    global Vie
+    global Force
+    global Défense
+    global Intelligence
+    global Adresse
+    global Magie
+    global argent
+    print("\n--- Troisième Quête ---\n")
+    print(
+        "Maire : 'Merci beaucoup pour votre aide, aventurier. Cependant, nous avons encore besoin de votre aide une dernière fois.'"
+    )
+    print(
+        "Maire : 'Un démon terrifiant est apparu dans les montagnes et menace notre village. Pouvez-vous le vaincre ?'"
+    )
+
+    print("\nQue voulez-vous répondre ?")
+    print("1. Oui, je vais affronter ce démon.")
+    print("2. Non, cette tâche est trop dangereuse pour moi.")
+    choix = input("Entrez le numéro de votre choix (1 ou 2) : ")
+
+    if choix == '1':
+        print("\nVous : 'Oui, je vais affronter ce démon.'")
+        print(
+            "Maire : 'Merci infiniment ! Le démon se cache dans les montagnes à l'est du village. Bonne chance, aventurier.'"
+        )
+
+        print("\nVous vous dirigez vers les montagnes à l'est du village.")
+        print(
+            "Après une longue ascension, vous trouvez enfin la tanière du démon."
+        )
+        print("Vous devez maintenant décider comment l'affronter.")
+
+        # Choix de la stratégie
+        while not Troisième_Quête:
+            if not dragon:
+                print("\nQuelle stratégie voulez-vous utiliser ?")
+                print("1. Attaquer de front avec toute votre force.")
+                print(
+                    "2. Utiliser la magie pour l'affaiblir avant de l'attaquer."
+                )
+                print("3. Piéger le démon et l'attaquer par surprise.")
+                choix_strategie = input(
+                    "Entrez le numéro de votre choix (1, 2 ou 3) : ")
+            else:
+                print("\nQuelle stratégie voulez-vous utiliser ?")
+                print("1. Attaquer de front avec toute votre force.")
+                print(
+                    "2. Utiliser la magie pour l'affaiblir avant de l'attaquer."
+                )
+                print("3. Piéger le démon et l'attaquer par surprise.")
+                print("4. Utiliser votre souffle de feu pour l'affaiblir.")
+                print("5. Utiliser vos crocs pour attaquer le démon.")
+                choix_strategie = input(
+                    "Entrez le numéro de votre choix (1, 2, 3, 4 ou 5) : ")
+
+            if choix_strategie == '1':
+                if Force >= 18:
+                    print(
+                        "\nVous décidez d'attaquer de front avec toute votre force."
+                    )
+                    print(
+                        "Grâce à votre puissance, vous parvenez à vaincre le démon après un combat acharné."
+                    )
+                else:
+                    print(
+                        "\nVous décidez d'attaquer de front avec toute votre force."
+                    )
+                    print(
+                        "Cependant, le démon est trop puissant et vous êtes submergé. Vous devez battre en retraite et repenser votre stratégie."
+                    )
+                    Dégât = 5
+                    Vie -= Dégât
+                    print("Vous avez perdu {Dégât} points de vie.")
+                    ravenwood()
+            elif choix_strategie == '2':
+                if Magie >= 15:
+                    print(
+                        "\nVous utilisez votre magie pour affaiblir le démon avant de l'attaquer."
+                    )
+                    print(
+                        "Votre plan fonctionne parfaitement et vous parvenez à vaincre le démon après un combat intense."
+                    )
+                else:
+                    print(
+                        "\nVous tentez d'utiliser votre magie pour affaiblir le démon."
+                    )
+                    print(
+                        "Malheureusement, votre magie n'est pas assez puissante et vous êtes submergé. Vous devez battre en retraite et repenser votre stratégie."
+                    )
+                    Dégât = 5
+                    Vie -= Dégât
+                    print("Vous avez perdu {Dégât} points de vie.")
+                    ravenwood()
+            elif choix_strategie == '3':
+                if Adresse >= 18:
+                    print(
+                        "\nVous décidez de piéger le démon et de l'attaquer par surprise."
+                    )
+                    print(
+                        "Votre plan fonctionne parfaitement et vous parvenez à vaincre le démon après un combat acharné."
+                    )
+                else:
+                    print(
+                        "\nVous tentez de piéger le démon et de l'attaquer par surprise."
+                    )
+                    print(
+                        "Malheureusement, votre tentative échoue et vous êtes repéré. Vous devez battre en retraite et repenser votre stratégie."
+                    )
+                    Dégât = 5
+                    Vie -= Dégât
+                    print("Vous avez perdu {Dégât} points de vie.")
+                    ravenwood()
+            elif choix_strategie == '4':
+                if dragon:
+                    print(
+                        "\nVous décidez d'utiliser votre souffle de feu pour affaiblir le démon."
+                    )
+                    print(
+                        "Votre souffle de feu est très efficace et vous parvenez à vaincre le démon après un combat épique."
+                    )
+                else:
+                    print(
+                        "\nChoix invalide. Vous devez choisir une stratégie valide."
+                    )
+                    troisieme_quete()
+            elif choix_strategie == '5':
+                if dragon:
+                    print(
+                        "\nVous décidez d'utiliser vos crocs pour attaquer le démon."
+                    )
+                    print(
+                        "Votre force et votre férocité vous permettent de vaincre le démon après un combat acharné."
+                    )
+                else:
+                    print(
+                        "\nChoix invalide. Vous devez choisir une stratégie valide."
+                    )
+                    troisieme_quete()
+            else:
+                print(
+                    "\nChoix invalide. Veuillez sélectionner une stratégie valide."
+                )
+                troisieme_quete()
+
+        print(
+            "\nFélicitations ! Vous avez réussi la troisième quête et avez vaincu le démon."
+        )
+        print("Le village de Rivenwood est enfin en sécurité grâce à vous.")
+        Troisième_Quête = True
+        gain = random.randint(50, 100)
+        print("Vous recevez une récompense de " + str(gain) + "pièces d'or.")
+        global argent
+        argent += gain
+        ravenwood()
+    else:
+        print("\nVous : 'Non, cette tâche est trop dangereuse pour moi.'")
+        print(
+            "Maire : 'Je comprends, aventurier. Merci pour tout ce que vous avez déjà fait pour notre village.'"
+        )
+        ravenwood()
+
+    return "Troisième quête terminée.", Troisième_Quête
+
+
+#Fonction pour choisir la quête à Rivenwood
+def ravenwood():
+    global Première_Quête
+    global Deuxième_Quête
+    global Troisième_Quête
+    print("\nVous êtes à Ravenwood. Vous avez trois quêtes à faire :")
+    print("---Que voulez-vous faire ?---")
+    print("1. Commencer la première quête.")
+    print("2. Commencer la deuxième quête.")
+    print("3. Commencer la troisième quête.")
+    print("4. Quitter le village.")
+    choix = input("Entrez le numéro de votre choix (Entre 1 et 3) : ")
+    if choix == '1':
+        premiere_quete()
+    elif choix == '2':
+        if Première_Quête is True:
+            deuxieme_quete()
+        else:
+            print("Tu n'as pas fait la quête précédente. Retente ta chance.")
+            ravenwood()
+    elif choix == '3':
+        if Deuxième_Quête is True:
+            troisieme_quete()
+        else:
+            print("Tu n'as pas fait la quête précédente. Retente ta chance.")
+            ravenwood()
+    elif choix == '4':
+        menu_principal()
+    else:
+        print("Choix invalide. Veuillez sélectionner une option valide.")
+        ravenwood()
+        return "Ravenwood"
+
+
+#Fonction pour la deuxième partie de la quatrième quête
+def quatrieme_quete_partie_2():
+    global Quatrième_Quête
+    Quatrième_Quête = False
+    global Vie
+    global Force
+    global Défense
+    global Intelligence
+    global Adresse
+    global Magie
+    global argent
+    if not dragon:
+        print("\nVous faites face au groupe de pillards ainsi qu'au géant.")
+        print("\nQuelle stratégie voulez-vous adopter ?")
+        print("1. Attaquer de front avec toute votre force.")
+        print("2. Utiliser la magie pour attaquer.")
+        print(
+            "3. Piéger minutieusement le groupe de pillards et l'attaquer par surprise."
+        )
+        print(
+            "4. Faire preuve d'adresse afin d'utiliser une réaction en chaîne pour tous les neutraliser."
+        )
+        choix = input("Entrez le numéro de votre choix (1, 2, 3 ou 4) : ")
+    else:
+        print("\nVous faites face au groupe de pillards ainsi qu'au géant.")
+        print("\nQuelle stratégie voulez-vous adopter ?")
+        print("1. Attaquer de front avec toute votre force.")
+        print("2. Utiliser la magie pour attaquer.")
+        print(
+            "3. Piéger minutieusement le groupe de pillards et l'attaquer par surprise."
+        )
+        print(
+            "4. Faire preuve d'adresse afin d'utiliser une réaction en chaîne pour tous les neutraliser."
+        )
+        print(
+            "5. Vous vous envolez et vous allez planter vos crocs dans la gorge du géant pour le tuer puis vous descendez, vous volez en rase-mottes en crachant des flammes sur les pillards."
+        )
+        choix = input("Entrez le numéro de votre choix (1, 2, 3, 4 ou 5) : ")
+
+    if choix == '1':
+        if Force >= 15:
+            print("\nVous décidez d'attaquer de front avec toute votre force.")
+            print(
+                "Grâce à votre puissance, vous parvenez à vaincre le groupe de pillards après un combat acharné."
+            )
+            print("Le géant, ne sachant quoi faire se suicide.")
+        else:
+            print("\nVous décidez d'attaquer de front avec toute votre force.")
+            print(
+                "Cependant, le groupe de pillards est trop puissant et vous êtes submergé. Vous devez battre en retraite et repenser votre stratégie."
+            )
+            Dégât = 5
+            Vie -= Dégât
+            print("Vous avez perdu {Dégât} points de vie.")
+            tryndamere()
+    elif choix == '2':
+        if Magie >= 15:
+            print("\nVous utilisez votre magie pour attaquer.")
+            print(
+                "Votre plan fonctionne parfaitement et vous parvenez à vaincre le groupe de pillards après un combat intense."
+            )
+            print("Le géant, ne sachant quoi faire se suicide.")
+        else:
+            print("\nVous tentez d'utiliser votre magie pour attaquer.")
+            print(
+                "Malheureusement, votre magie n'est pas assez puissante et vous êtes submergé. Vous devez battre en retraite et repenser votre stratégie."
+            )
+            Dégât = 5
+            Vie -= Dégât
+            print("Vous avez perdu {Dégât} points de vie.")
+            tryndamere()
+    elif choix == '3':
+        if Intelligence >= 18:
+            print(
+                "\nVous décidez de piéger le groupe de pillards et de l'attaquer par surprise."
+            )
+            print(
+                "Votre plan fonctionne parfaitement et vous parvenez à vaincre le groupe de pillards après un combat acharné."
+            )
+            print("Le géant, ne sachant quoi faire se suicide.")
+        else:
+            print(
+                "\nVous tentez de piéger le groupe de pillards et de l'attaquer par surprise."
+            )
+            print(
+                "Malheureusement, votre tentative échoue et vous êtes repéré. Vous devez battre en retraite et repenser votre stratégie."
+            )
+            Dégât = 5
+            Vie -= Dégât
+            print("Vous avez perdu {Dégât} points de vie.")
+            tryndamere()
+    elif choix == '4':
+        if Adresse >= 16:
+            print(
+                "\nVous décidez de faire preuve d'adresse afin d'utiliser une réaction en chaîne pour tous les neutraliser."
+            )
+            print(
+                "Votre plan fonctionne parfaitement et vous parvenez à vaincre le groupe de pillards après un combat acharné."
+            )
+            print("Le géant, ne sachant quoi faire se suicide.")
+        else:
+            print(
+                "\nVous tentez de faire preuve d'adresse afin de tous les neutraliser."
+            )
+            print(
+                "Malheureusement, votre tentative échoue et vous êtes repéré. Vous devez battre en retraite et repenser votre stratégie."
+            )
+            Dégât = 5
+            Vie -= Dégât
+            print("Vous avez perdu {Dégât} points de vie.")
+            tryndamere()
+    elif choix == '5':
+        if dragon:
+            print(
+                "\nVous vous envolez et vous allez planter vos crocs dans la gorge du géant pour le tuer puis vous descendez, vous volez en rase-mottes en crachant des flammes sur les pillards."
+            )
+            print(
+                "Votre plan fonctionne parfaitement et vous parvenez à vaincre le groupe de pillards après un combat acharné."
+            )
+            print("Le géant, ne sachant quoi faire se suicide.")
+        else:
+            print("\nChoix invalide. Vous devez choisir une stratégie valide.")
+            quatrieme_quete_partie_2()
+    else:
+        print("\nChoix invalide. Veuillez sélectionner une option valide.")
+        quatrieme_quete_partie_2()
+
+        print("\nFélicitations ! Vous avez réussi la quatrième quête.")
+        print("Vous avez enfin éliminé tous les pillards et le géant.")
+        print("Vous avez sauvé la ville de Tryndamere.")
+        gain = random.randint(50, 100)
+        print("Vous recevez une récompense de " + str(gain) + "pièces d'or.")
+        Quatrième_Quête = True
+        global argent
+        argent += gain
+        tryndamere()
+    return "Quatrième Quête terminée", Quatrième_Quête
+
+
+#Fonction pour la quatrième quête
+def quatrieme_quete():
+    global Force
+    global Défense
+    global Intelligence
+    global Adresse
+    global Magie
+    Quatrième_Quête_partie1 = False
+    print("\n--- Quatrième Quête ---\n")
+    print(
+        "Le maire de la ville vous demande de l'aider à résoudre un mystère.")
+    print(
+        "Maire : 'Une bande de pillards a ravagée la ville avec l'appui d'un géant. Nous avons réussi à leur coller un traceur magique sur la semelle de l'un d'entre eux.'"
+    )
+    print("Maire : 'Voulez vous nous aider ?'")
+    print("\nQue voulez-vous répondre ?")
+    print("1. Oui, je vais aider vous aider.")
+    print("2. Non, je ne peux pas vous aider.")
+    choix = input("Entrez le numéro de votre choix (1 ou 2) : ")
+    if choix == '1':
+        print("Vous : 'Oui, je vais aider vous aider.'")
+        print(
+            "Maire : 'Merci beaucoup ! Nous avons besoin de votre aide pour retrouver les pillards et les battre.'"
+        )
+        print(
+            "Le maire vous donne une carte où un point rouge se déplace en clignotant."
+        )
+        print("Vous suivez la carte et vous arrivez au pied d'une montagne.")
+        if dragon is False:
+            print("\n---Que voulez-vous faire ?---")
+            print(
+                "1. Vous décidez d'escalader la montagne pour arriver chez les pillards."
+            )
+            print(
+                "2. Vous décidez d'utiliser votre magie pour arriver au sommet de la montagne."
+            )
+            print(
+                "3. Vous décidez d'utiliser un miroir pour envoyer des signaux lumineux afin de faire descendre les pillards."
+            )
+            choix = input("Entrez le numéro de votre choix (1, 2 ou 3) : ")
+        else:
+            print("\n---Que voulez-vous faire ?---")
+            print(
+                "1. Vous décidez d'escalader la montagne pour arriver chez les pillards."
+            )
+            print(
+                "2. Vous décidez d'utiliser votre magie pour arriver au sommet de la montagne."
+            )
+            print(
+                "3. Vous décidez d'utiliser un miroir pour envoyer des signaux lumineux afin de faire descendre les pillards."
+            )
+            print("4. Vous vous envolez pour le sommet.")
+            choix = input("Entrez le numéro de votre choix (Entre 1 et 4) : ")
+        while Quatrième_Quête_partie1 is False:
+            if choix == '1':
+                if Force >= 13:
+                    print(
+                        "\nVous décidez d'escalader la montagne pour arriver chez les pillards."
+                    )
+                    Quatrième_Quête_partie1 = True
+                    quatrieme_quete_partie_2()
+                else:
+                    print(
+                        "\nVous tentez d'escalader la montagne pour arriver chez les pillards."
+                    )
+                    print(
+                        "Malheureusement, votre force n'est pas assez puissante et vous échouez. Vous devez repenser votre stratégie."
+                    )
+                    quatrieme_quete()
+            elif choix == '2':
+                if Magie >= 15:
+                    print(
+                        "\nVous utilisez votre magie pour arriver au sommet de la montagne."
+                    )
+                    print(
+                        "Votre plan fonctionne parfaitement et vous parvenez à arriver chez les pillards."
+                    )
+                    Quatrième_Quête_partie1 = True
+                    quatrieme_quete_partie_2()
+                else:
+                    print(
+                        "\nVous tentez d'utiliser votre magie pour arriver au sommet de la montagne."
+                    )
+                    print(
+                        "Malheureusement, votre magie n'est pas assez puissante et vous échouez. Vous devez repenser votre stratégie."
+                    )
+                    quatrieme_quete()
+            elif choix == '3':
+                if Magie >= 15:
+                    print(
+                        "\nVous utilisez un miroir pour envoyer des signaux lumineux afin de faire descendre les pillards."
+                    )
+                    print(
+                        "Votre plan fonctionne parfaitement et vous parvenez à arriver chez les pillards."
+                    )
+                    Quatrième_Quête_partie1 = True
+                    quatrieme_quete_partie_2()
+                else:
+                    print(
+                        "\nVous tentez d'utiliser un miroir pour envoyer des signaux lumineux afin de faire descendre les pillards."
+                    )
+                    print(
+                        "Malheureusement, votre magie n'est pas assez puissante et vous échouez. Vous devez repenser votre stratégie."
+                    )
+                    quatrieme_quete()
+            elif choix == '4':
+                if dragon:
+                    print("\nVous vous envolez pour le sommet.")
+                    print(
+                        "Votre force et votre férocité vous permettent de faire descendre les pillards."
+                    )
+                    Quatrième_Quête_partie1 = True
+                    quatrieme_quete_partie_2()
+                else:
+                    print(
+                        "\nChoix invalide. Vous devez choisir une stratégie valide."
+                    )
+                    quatrieme_quete()
+            else:
+                print("\nChoix invalide. Veuillez sélectionner une option valide.")
+                quatrieme_quete()
+    elif choix == '2':
+        print("Vous : 'Non je ne vais pas vous aider.''")
+        print("Maire : 'Je comprends, aventurier. Merci pour votre compréhension.'")
+        menu_principal()
+    else:
+        print("Choix invalide. Veuillez sélectionner une option valide.")
+        quatrieme_quete()
+
+    return "Première partie de la quatrième quête terminée.", Quatrième_Quête_partie1
+
+
+#Fonction pour la cinquième quête
+def cinquieme_quete():
+    Cinquième_Quête = False
+    global Vie
+    global Force
+    global Défense
+    global Intelligence
+    global Adresse
+    global Magie
+    global argent
+    print("Cette quête est en cours de développement.")
+    tryndamere()
+
+    return "Cinquième quête terminée.", Cinquième_Quête
+
+
+#Fonction pour choisir la quête à Tryndamere
+def tryndamere():
+    print(
+        "\nVous êtes dans la ville de Tryndamere. Vous avez trois quêtes à faire :"
+    )
+    print("---Que voulez-vous faire ?---")
+    print("1. Commencer la quatrième quête.")
+    print("2. Commencer la cinquième quête.")
+    print("3. Commencer la sixième quête.")
+    print("4. Quitter la ville.")
+    choix = input("Entrez le numéro de votre choix (Entre 1 et 3) : ")
+    if choix == '1':
+        if Troisième_Quête is True:
+            quatrieme_quete()
+        else:
+            print("Vous n'avez pas réussi la quête précédente. Retente ta chance.")
+    elif choix == '2':
+        if Quatrième_Quête is True:
+            cinquieme_quete()
+        else:
+            print("Tu n'as pas fait ou fini la quête précédente. Retente ta chance.")
+            tryndamere()
+    elif choix == '3':
+        print("Cette quête n'est pas encore disponible.")
+        tryndamere()
+    elif choix == '4':
+        menu_principal()
+    else:
+        print("Choix invalide. Veuillez sélectionner une option valide.")
+        tryndamere()
+
+# Fonction pour choisir sa quête à Mordor
+def mordor():
+    print("Ce lieu n'est pas encore disponible.")
+    print("Veuillez choisir un autre lieu.")
+    menu_principal()
+
+
+personnage, Force, Intelligence, Adresse, Magie, Vie, dragon = choisir_personnage(
+)
+print(
+    "\nBonjour, bienvenue dans ce jeu de rôle interactif. Vous êtes un aventurier, et vous avez besoin de votre intelligence et de votre force."
+)
+print(
+    "Votre but seras d'accomplir différentes quêtes. Vous aurez des choix à faire, et vous devrez les choisir en fonction de votre personnage."
+)
+print(
+    "Vous aurez des points d'argent, et vous devrez les utiliser pour acheter du matériel et des armes qui servirons à augmenter vos compétences."
+)
+
+menu_principal()
